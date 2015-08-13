@@ -1,0 +1,97 @@
+Partlist
+
+Exported from uradmonitor_D.101.sch at 14/08/15 00:19
+
+EAGLE Version 6.1.0 Copyright (c) 1988-2012 CadSoft
+
+Assembly variant: 
+
+Part     Value                         Device                        Package               Library                    Sheet
+
+BATTERY1 BAT-CASIO-NP40BATTERY         BAT-CASIO-NP40BATTERY         BAT-CASIO-NP40        uradmonitor                1
+C1       33p                           C-EUC0805K                    C0805K                rcl                        1
+C2       33p                           C-EUC0805K                    C0805K                rcl                        1
+C3       10uF                          C-EUC0805K                    C0805K                rcl                        1
+C4       100nF                         C-EUC0805K                    C0805K                rcl                        1
+C5       100nF                         C-EUC0805K                    C0805K                rcl                        1
+C6       0.1uF                         CAP0805                       0805                  SparkFun                   1
+C7       0.1uF                         CAP0805                       0805                  SparkFun                   1
+C8       10uF                          C-EUC0805K                    C0805K                rcl                        1
+C9       100nF                         C-EUC0805K                    C0805K                rcl                        1
+C10      10uF                          C-EUC0805K                    C0805K                rcl                        1
+C11      10uF                          C-EUC0805K                    C0805K                rcl                        1
+C12      0.1uF                         CAP0805                       0805                  SparkFun                   1
+C13      15nF                          C-EUC0805K                    C0805K                rcl                        1
+C14      10nF / 1KV                    C-EU050-025X075               C050-025X075          rcl                        1
+C15      33p                           C-EUC0805K                    C0805K                rcl                        1
+C16      68pF                          C-EUC0805K                    C0805K                rcl                        1
+C17      100nF                         C-EUC0805K                    C0805K                rcl                        1
+C18      10uF                          C-EUC0805K                    C0805K                rcl                        1
+D1       1N4148                        DIODESOD-323F                 SOD-323F              adafruit                   1
+D2       HER108                        DIODE-DO-214AC                DO-214AC              diode                      1
+D3       1N581-SMA                     1N581-SMA                     SMA-DIODE             digital-toy                1
+GEIGER1  GEIGERTUBE_LND712             GEIGERTUBE_LND712             GEIGERTUBE_LND712     uradmonitor                1
+IC2      MEGA128-A                     MEGA128-A                     TQFP64                atmel                      1
+IC3      REG1117                       REG1117                       SOT223                burr-brown                 1
+IC4      TP4056                        TP4056                        TP4056                uradmonitor                1
+IC5      BME280                        BME280                        BME280                uradmonitor                1
+J$1      SMA_EDGE                      SMA_EDGE                      SMA-EDGE              sparkfun-connectors        1
+JP1                                    PINHD-1X3                     1X03                  adafruit                   1
+JP3      Dust Sensor                   PINHD-1X6CB                   1X06-CLEANBIG         adafruit                   1
+LED3                                   LEDCHIP-LED0805               CHIP-LED0805          adafruit                   1
+LED4                                   LEDCHIP-LED0805               CHIP-LED0805          adafruit                   1
+LED5                                   LED3MM                        LED3MM                adafruit                   1
+LED6                                   LED3MM                        LED3MM                adafruit                   1
+Q1       8Mhz                          XTAL/S                        QS                    special                    1
+Q2                                     CRYSTALTC26H                  TC26H                 adafruit                   1
+Q4       SI2305                        SI2305                        SOT23                 uradmonitor                1
+R1       100                           R-EU_R0805                    R0805                 resistor                   1
+R2       10K                           R-EU_R0805                    R0805                 rcl                        1
+R3       100                           R-EU_R0805                    R0805                 resistor                   1
+R4       1K                            R-EU_R0805                    R0805                 rcl                        1
+R5       1K                            R-EU_R0805                    R0805                 rcl                        1
+R6       1.2K                          R-EU_R0805                    R0805                 rcl                        1
+R7       1                             R-EU_R0805                    R0805                 rcl                        1
+R8       1K                            R-EU_R0805                    R0805                 rcl                        1
+R9       1K                            R-EU_R0805                    R0805                 rcl                        1
+R10      1                             R-EU_R0805                    R0805                 rcl                        1
+R11      1                             R-EU_R0805                    R0805                 rcl                        1
+R12      1                             R-EU_R0805                    R0805                 rcl                        1
+R13      100                           R-EU_R0805                    R0805                 rcl                        1
+R14      10K                           R-EU_R0805                    R0805                 resistor                   1
+R15      10M 1%                        R-EU_0204/7                   0204/7                rcl                        1
+R16      47K 1%                        R-EU_R0805                    R0805                 rcl                        1
+R17      10M                           R-EU_0204/7                   0204/7                rcl                        1
+R18      220K                          R-EU_0204/7                   0204/7                rcl                        1
+R19      10K                           R-EU_R0805                    R0805                 rcl                        1
+R20      100K                          R-EU_R0805                    R0805                 rcl                        1
+R21      10K                           R-EU_R0805                    R0805                 rcl                        1
+R22      4.7K                          R-EU_R0805                    R0805                 rcl                        1
+R23      4.7K                          R-EU_R0805                    R0805                 rcl                        1
+R24      100K                          R-EU_R0805                    R0805                 resistor                   1
+R25      220K                          R-EU_R0805                    R0805                 rcl                        1
+R26      220K                          R-EU_R0805                    R0805                 rcl                        1
+R27      100K                          R-EU_R0805                    R0805                 rcl                        1
+R28      10K                           R-EU_R0805                    R0805                 rcl                        1
+R29      10K                           R-EU_R0805                    R0805                 rcl                        1
+R30      100                           R-EU_R0805                    R0805                 rcl                        1
+S1       SWITCH-MOMENTARY-2-SMD-1101NE SWITCH-MOMENTARY-2-SMD-1101NE TACTILE-SWITCH-1101NE sparkfun-electromechanical 1
+S2       SWITCH-MOMENTARY-2SIDE_EZ     SWITCH-MOMENTARY-2SIDE_EZ     TACTILE-PTH-SIDEEZ    sparkfun-electromechanical 1
+SENSOR1  MICS_VZ_89T                   MICS_VZ_89T                   MICS_VZ_89T           uradmonitor                1
+SENSOR2  SENSOR_GY68GY-86DIP           SENSOR_GY68GY-86DIP           SENSOR_GY68           uradmonitor                1
+SP4      SPEAKER/AL60P                 SPEAKER/AL60P                 AL60P                 adafruit                   1
+SV1      isp                           MA05-2                        MA05-2                con-lstb                   1
+T1       MMBT2907                      MMBT2907ALT1-PNP-SOT23-BEC    SOT23-BEC             transistor-neu-to92        1
+T2       MPSA42                        MMBTA42LT1-NPN-SOT23-BEC      SOT23-BEC             transistor-neu-to92        1
+T3       MMBT2222                      MMBT2222ALT1-NPN-SOT23-BEC    SOT23-BEC             transistor-neu-to92        1
+T4       2907                          MMBT2907ALT1-PNP-SOT23-BEC    SOT23-BEC             transistor-neu-to92        1
+T5       MMBT2907                      MMBT2907ALT1-PNP-SOT23-BEC    SOT23-BEC             transistor-neu-to92        1
+T6       MMBT2222                      MMBT2222ALT1-NPN-SOT23-BEC    SOT23-BEC             transistor                 1
+T7       MMBT2222                      MMBT2222ALT1-NPN-SOT23-BEC    SOT23-BEC             transistor                 1
+U$1      TJCTM24024-PCBCON             TJCTM24024-PCBCON             TJCTM24024-PCBCON     uradmonitor                1
+U$2      USB_AB                        USB_AB                        USB-AB-MICRO-SMD      sparkfun-connectors        1
+U$3      BL8530-SOT89-3                BL8530-SOT89-3                SOT-89-3              digital-toy                1
+U$4      2.2mH                         INDUCTOR1206H*                INDUCTOR-1206         digital-toy                1
+U$5                                    INDUCTOR-B82462G              B82462G               digital-toy                1
+U1       FT232RLSSOP                   FT232RLSSOP                   SSOP28DB              SparkFun                   1
+WLAN1    ESP8266_ESP04                 ESP8266_ESP04                 ESP8266_ESP04         uradmonitor                1
