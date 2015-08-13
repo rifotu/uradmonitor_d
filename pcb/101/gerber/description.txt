@@ -1,0 +1,11 @@
+File extension .GTL is TOP COPPER, format GERBER_RS274X
+File extension .GBL is BOTTOM COPPER, format GERBER_RS274X
+File extension .GTO is TOP SILKSCREEN, format GERBER_RS274X
+File extension .GBO is BOTTOM SILKSCREEN, format GERBER_RS274X
+File extension .GTP is TOP PASTE, format GERBER_RS274X
+File extension .GBP is BOTTOM PASTE, format GERBER_RS274X
+File extension .GTS is TOP SOLDERMASK, format GERBER_RS274X
+File extension .BGS is BOTTOM SOLDERMASK, format GERBER_RS274X
+File extension .MILLING is the MILLING Layer, format HPGL
+File extension .DRD is the DRILL Layer, format EXCELLON
+

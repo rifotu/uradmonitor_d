@@ -1,0 +1,20 @@
+2015-08-07
+PF7,PF6,PF5 (touchscreen and battery monitor) were not working, because they were used by JTAG.
+Had to disable JTAG in code: 	MCUCSR |=(1<<JTD);
+
+2015-08-06
+The inverter running on battery was charging the battery. Had to cut the 5V trace. A proper fix is adding a diode after the FTDI circuit. Current from inverter should only go to 500V inverter and to 3.3regulator
+3.3V regulator is overheating. Some filter caps seemed to help but not entirely. This must be replacest by a step down converter.
+
+[date]
+BMP180 code stopped working. This was actually caused by the MiCS-VZ-89 failure, bringing down the entire I2C line.
+
+[date]
+ILI9341 touch driver failure. LCD connector failure. No LCDs left. Package from China brought a few new ones in time, but with no touchscreen.
+I was able to find some different touchscreen replacements, dropped the driver to implement the detection mechanism in avr.
+
+[date]
+Atmega128 seems to manifest weird behaviour with a simple LED code: direct PIN code works, while the DigitalPin class doesn't. Apparently this was related to avrdude, altering the firmware code during upload.
+
+[date]
+LCD code is not running. I assumed that the LCD was burned by using 5V. False, the avrdude had issued properly writting the firmware to the mega128

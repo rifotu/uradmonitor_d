@@ -1,0 +1,48 @@
+2015_08_11 beta release
+- user interface
+- charts
+- class for GUI to separate from main
+- buttons class
+- sounds, alarm, backlight timeout, power sequence
+- GUI organised in pages
+- titlebar with time, battery and alert
+- at quick dirty parser for esp8266
+
+2015_08_07
+- troubleshooting: ADC PF7, PF6 , PF5 didn't work due to the JTAG being enabled. Disabling it in code.s
+- added the high voltage inverter class. Some updates for setting the parameters in the constructor (pwm frequency, duty cycle), and a few getters for this params.
+- investigates duty cycle vs. frequency vs. output voltage and draw some charts to ilustrate the results. Surprisingly, entering audible frequency interval will not produce the high pitched sound, but getting under 8KHz will result in heating of the HV Inverter ferrite core and inductor. Opted to go for 12500Hz for now (uradmonitor model A uses 15.5KHz)
+- in model A, we adjust the duty cycle to match the target voltage with a given tolerance (2-5V). If for some reason we failed to reach the voltage and the duty cycle reached maximum, we would enter a soft reset (reboot of the unit). Here things are different. As we now need higher voltage (450-500V for the LND712), we risk aproaching the max duty cycle value, where the voltage increase is no longer linear, and we risk missing the hotspot. We can't reset either, as we have a user looking at the screen, and we're not just a monitor. So we remember the highest voltage reached, and we return to that area, since it's most likely the ferrite core will do its best there (instead of at the end  of the allowed duty cycle interval). Also remember that we are using a second pull down transistor connected to the main switching transistor, so going up to 80-90% duty cycles is perfectly fine.
+
+2015_08_06
+First PCB assembly
+
+2015_08_05
+PCB design http://www.pocketmagic.net/a-true-hacker-makes-his-own-pcbs/
+
+2015_08_03
+xpt2046 touch driver is broken so Resistive touchscreen will be used directly
+Source: http://www.pocketmagic.net/resistive-touchscreen/
+
+2015_07_29
+ESP8266 code
+Source: http://www.pocketmagic.net/esp8266-troubleshooting/
+
+2015_07_31
+I2C
+BMP180 and Mics-VZ-89T
+backlight controller
+soft start controller
+Source: http://www.pocketmagic.net/mics-vz-89-air-quality-sensor/
+
+2015_07_31
+Dust sensor
+Source: http://www.pocketmagic.net/sharp-gp2y10-dust-sensor/
+
+2015_07_23
+ILI9341 display + touchscreen
+Source: http://www.pocketmagic.net/ili9341-touchscreen-lcd-library/
+
+2015_07_15
+Geiger tubes LND712 arrived. Tests shown the invertor topology used in uRADMonitor model A (5V -> 380V) can be used for the new target voltage without any hardware modifications (the boost converter can be configured in software to go as high as 550V). We'll use 450V which is at the inferior limit of the LND712's working interval, just ot be on the safe side.
+

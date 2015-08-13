@@ -1,0 +1,4 @@
+The area to be cut out (milling area / cyan color) is a rectangle.
+
+With the origin set to the top-left corner of the PCB, the milling rectangle starts at:
+

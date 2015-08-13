@@ -1,0 +1,1 @@
+The cyan area must be milled out. The gerber files also indicate the milling layer.
