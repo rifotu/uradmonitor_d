@@ -1,0 +1,7 @@
+# ignore specific files
+.DS_Store
+
+# ignore folders
+Release/
+Debug/
+docs/
