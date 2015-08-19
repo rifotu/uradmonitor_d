@@ -1,3 +1,15 @@
+2015_08_19 enclosure
+- new enclosure V102, to adapt for the new LCD connector, designed in autocad for machine compatibility
+- negociations with Chinese aluminium enclosure manufacturers
+
+2015_08_15 pcb
+- reworking the pcb v102 for the following changes: drop 5V boost converter, change ams1117 regulator to high efficienty LTC3440 boost/buck converter for 3.3V output, 
+drop p-ch mosfet and directly control power using the LTC chip, add voltage multiplier to the high voltage inverter so we can jump from 3.3 directly to 500 or more,
+change ISP to 6 pins connector, new LCD connector, EEPROM chip
+
+2015_08_14 pcb
+- sourcing components for following hardware changes (v102)
+
 2015_08_11 beta release
 - user interface
 - charts

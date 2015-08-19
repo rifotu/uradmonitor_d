@@ -20355,7 +20355,7 @@ Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly
 <wire x1="233.68" y1="66.04" x2="241.3" y2="66.04" width="0.1524" layer="91"/>
 <junction x="241.3" y="66.04"/>
 <label x="0" y="71.12" size="1.778" layer="95"/>
-<label x="121.92" y="-38.1" size="1.778" layer="95"/>
+<label x="129.54" y="-30.48" size="1.778" layer="95"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="154.94" y1="119.38" x2="154.94" y2="106.68" width="0.1524" layer="91"/>
 <wire x1="154.94" y1="106.68" x2="170.18" y2="106.68" width="0.1524" layer="91"/>
@@ -20766,7 +20766,7 @@ Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly
 <wire x1="139.7" y1="-20.32" x2="139.7" y2="30.48" width="0.1524" layer="91"/>
 <junction x="144.78" y="30.48"/>
 <label x="2.54" y="58.42" size="1.778" layer="95"/>
-<label x="124.46" y="-33.02" size="1.778" layer="95"/>
+<label x="86.36" y="-25.4" size="1.778" layer="95"/>
 <wire x1="170.18" y1="116.84" x2="167.64" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="167.64" y1="116.84" x2="167.64" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="167.64" y1="111.76" x2="170.18" y2="111.76" width="0.1524" layer="91"/>
