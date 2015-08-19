@@ -5,3 +5,7 @@
 Release/
 Debug/
 docs/
+
+# ignore eagle temp files
+*.s#*
+*.b#*
