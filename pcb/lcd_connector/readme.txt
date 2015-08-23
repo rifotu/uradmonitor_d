@@ -1,0 +1,1 @@
+Only used prior to 1.0.102 hardware (also in beta release).
