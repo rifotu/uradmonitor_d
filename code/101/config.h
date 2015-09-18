@@ -1,10 +1,7 @@
 /*
-** uRADMonitor radiation detectors
-** Version: 	0.1.0
-** Date: 		January, 2014
-** License:		LGPL v3
-** Copyright: 	(C) 2009 - 2015 Radu Motisan, radu.motisan@gmail.com
-** Description:	Used in the uRADMonitor code to identify various radiation detectors, mostly Geiger tubes
+** Config file
+** Copyright (C) 2009 - 2015 Radu Motisan, radu.motisan@gmail.com
+** General settings for the project.
 **
 ** www.pocketmagic.net
 **
@@ -26,24 +23,15 @@
 */
 
 
-#pragma once
+// Change to match your board! //
+#define ATMEGA128 1
+
+#define F_CPU 	16000000UL
 
 
-#include <stdint.h>
-
-// define Radiation DETECTORS
-#define GEIGER_TUBE_UNKNOWN 0x0
-#define GEIGER_TUBE_SBM20 0x1
-#define GEIGER_TUBE_SI29BG 0x2
-#define GEIGER_TUBE_SBM19 0x3
-#define GEIGER_TUBE_STS5 0x4
-#define GEIGER_TUBE_SI22G 0x5
-#define GEIGER_TUBE_SI3BG 0x6
-#define GEIGER_TUBE_SBM21 0x7
-#define GEIGER_TUBE_LND712 0x8
-#define GEIGER_TUBE_SBT9 0x9
-#define GEIGER_TUBE_SI1G 0xA
-
-char *aux_detectorName(uint8_t param);
-float aux_detectorFactor(uint8_t param);
+#ifndef ALIBC_OLD
+	#include <util/delay.h>
+#else
+	#include <avr/delay.h>
+#endif
 

@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -21124,8 +21124,8 @@ at 30/07/2012 11:04:18</description>
 <parts>
 <part name="FRAME1" library="frames" deviceset="DINA3_L" device=""/>
 <part name="J$1" library="sparkfun-connectors" deviceset="SMA_EDGE" device=""/>
-<part name="C1" library="rcl" deviceset="C-EU" device="C0805K" value="22pF"/>
-<part name="C2" library="rcl" deviceset="C-EU" device="C0805K" value="22pF"/>
+<part name="C1" library="rcl" deviceset="C-EU" device="C0805K" value="12pF"/>
+<part name="C2" library="rcl" deviceset="C-EU" device="C0805K" value="12pF"/>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
 <part name="C5" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
 <part name="IC2" library="atmel" deviceset="MEGA128" device="-A"/>
