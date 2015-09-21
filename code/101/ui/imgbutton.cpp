@@ -22,17 +22,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "button.h"
+#include "imgbutton.h"
 
-void Button::create(ILI9341 *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, char *text, uint8_t size, State state, uint16_t id) {
+void ImgButton::create(ILI9341 *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, Image *image, char *text, uint8_t size, State state, uint16_t id) {
 	m_lcd = lcd;
 	m_x = x; m_y = y; m_w = w; m_h = h;
 	m_size = size; m_id = id;
+	m_image = image;
 	strncpy(m_text, text, MAX_TEXT_LENGTH);
 	draw(state);
 }
 
-void Button::toggle() {
+void ImgButton::toggle() {
 	switch (m_state) {
 		case BUTTON_PRESSED:
 			draw(BUTTON_UNPRESSED);
@@ -42,66 +43,42 @@ void Button::toggle() {
 			break;
 	}
 }
-void Button::draw(State state) {
+void ImgButton::draw(State state) {
 	m_state = state;
-	uint8_t len = strlen(m_text), offset = 0;
-	uint16_t color_button , color_text, color_f1, color_f2;
+	uint16_t color_button , color_text;
 	switch (state) {
-		/*case BUTTON_DISABLED: {
-			color_button = DARKGREY;
-			color_text = LIGHTGREY;
-			color_f1 = BLACK_L3;
-			color_f2 = BLACK_L3;
-		} break;
-		case BUTTON_UNPRESSED: {
-			color_button = MEDGREY;
-			color_text = WHITE;
-			color_f1 = DARKWHITE;
-			color_f2 = BLACK_L3;
-		} break;
-		case BUTTON_PRESSED: {
-			color_button = MEDGREY;
-			color_text = WHITE;
-			color_f1 = BLACK_L3;
-			color_f2 = DARKWHITE;
-			offset = 1;
-		} break;*/
 		case BUTTON_DISABLED: {
-			color_button = BLACK_L1;
-			color_text = LIGHTGREY;
-			color_f1 = BLACK_L3;
-			color_f2 = BLACK_L3;
+			color_button = BLACK;
+			color_text = BLACK_L3;
 		} break;
 		case BUTTON_UNPRESSED: {
-			color_button = BLACK_L1;
+			color_button = BLACK;
 			color_text = WHITE;
-			color_f1 = DARKGREY; //white
-			color_f2 = BLACK_L2; //black
 		} break;
 		case BUTTON_PRESSED: {
-			color_button = BLACK_L1;
+			color_button = BLACK;
 			color_text = DARKGREY;
-			color_f1 = BLACK_L2;
-			color_f2 = DARKGREY;
-			offset = 1;
+
 		} break;
 	}
+	uint16_t imageHeight = m_image!=NULL? m_image->getHeight() : 0;
 
+	uint16_t sp = (m_h - m_size * imageHeight - m_size * FONT_HEIGHT ) /3;
 	m_lcd->drawRectFilled(m_x, m_y, m_w, m_h, color_button);
-	m_lcd->drawLine(m_x, m_y, m_x + m_w, m_y, color_f1);
-	m_lcd->drawLine(m_x + m_w, m_y, m_x + m_w, m_y + m_h, color_f2);
-	m_lcd->drawLine(m_x, m_y + m_h, m_x + m_w, m_y + m_h, color_f2);
-	m_lcd->drawLine(m_x, m_y, m_x, m_y + m_h, color_f1);
-	m_lcd->drawString(m_x + (m_w - len * m_size * FONT_WIDTH) / 2 + offset , m_y + (m_h - m_size * FONT_HEIGHT) / 2 + offset, m_size, color_text, TRANSPARENT, m_text);
+
+	if (m_image != NULL)
+		m_image->draw(m_lcd, m_x + (m_w - m_size * m_image->getWidth()) / 2 , m_y + sp, m_size);
+
+	m_lcd->drawString(m_x + (m_w - strlen(m_text) * m_size * FONT_WIDTH) / 2  , m_y + 2 * sp + m_size * imageHeight, m_size, color_text, TRANSPARENT, m_text);
 }
 
-bool Button::isPressed(uint16_t x, uint16_t y) {
+bool ImgButton::isPressed(uint16_t x, uint16_t y) {
 	if (m_state == BUTTON_DISABLED)
 		return false;
 	else
 		return (x >= m_x && x < m_x + m_w && y >= m_y && y < m_y + m_h);
 }
 
-uint16_t Button::getId() {
+uint16_t ImgButton::getId() {
 	return m_id;
 }

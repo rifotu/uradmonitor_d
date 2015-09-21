@@ -35,9 +35,12 @@
 #define DARKCYAN    								0x03EF
 #define MAROON      								0x7800
 #define PURPLE      								0x780F
+#define PURPLE_L1									0xC3DF
 #define OLIVE       								0x7BE0
 #define BLUE        								0x001F
+#define BLUE_L1										0x7DDF
 #define GREEN       								0x07E0
+#define GREEN_L1									0x77CE
 #define CYAN        								0x07FF
 #define RED         								0xF800
 #define MAGENTA     								0xF81F
@@ -54,4 +57,6 @@
 #define DARKGREY    								0x7BEF
 
 #define BLACK       								0x0001
-#define LIGHTBLACK									0x632C
+#define BLACK_L1									0x2945
+#define BLACK_L2									0x4A69
+#define BLACK_L3									0x632C

@@ -1,8 +1,7 @@
 /*
-** Portable Environmental Monitor
+** Image Library for AVR microcontrollers
 ** Copyright (C) 2009 - 2015 Radu Motisan, radu.motisan@gmail.com
-** A battery powered handheld device that measures radiation (alpha,beta,gamma), and air parameters:
-** temperature, pressure, humidity, content of dust particles, CO2 levels, tVOCs levels
+** A basic UI button implementation designed for embedded systems
 **
 ** www.pocketmagic.net
 **
@@ -23,10 +22,20 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define STRING_NAME 			"Portable Environmental Monitor"
-#define STRING_WEB 				"www.uradmonitor.com"
-#define STRING_SHORTNAME		"uRADMonitor-D"
-#define STRING_SELFCHECK		"Self check..."
-#define STRING_BATVOLTAGE1		"Battery voltage: %2.2fV"
-#define STRING_BATDISCHARGED	"Battery empty!"
-#define STRING_STARTUPDONE		"Startup complete %lus"
+#pragma once
+
+#include "../ili9341/ili9341.h"
+
+class Image {
+private:
+	uint16_t m_w, m_h;
+	const uint16_t *m_pixels;
+public:
+	Image() {};
+	Image(const uint16_t *rgb16, uint16_t w, uint16_t h) ;
+
+	void draw(ILI9341 *lcd, uint16_t x, uint16_t y, uint8_t size);
+
+	uint16_t getWidth() { return m_w; }
+	uint16_t getHeight() { return m_h; }
+};

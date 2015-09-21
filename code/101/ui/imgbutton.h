@@ -1,8 +1,7 @@
 /*
-** Portable Environmental Monitor
+** Buttons Library for AVR microcontrollers
 ** Copyright (C) 2009 - 2015 Radu Motisan, radu.motisan@gmail.com
-** A battery powered handheld device that measures radiation (alpha,beta,gamma), and air parameters:
-** temperature, pressure, humidity, content of dust particles, CO2 levels, tVOCs levels
+** A basic UI button implementation designed for embedded systems
 **
 ** www.pocketmagic.net
 **
@@ -23,10 +22,35 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define STRING_NAME 			"Portable Environmental Monitor"
-#define STRING_WEB 				"www.uradmonitor.com"
-#define STRING_SHORTNAME		"uRADMonitor-D"
-#define STRING_SELFCHECK		"Self check..."
-#define STRING_BATVOLTAGE1		"Battery voltage: %2.2fV"
-#define STRING_BATDISCHARGED	"Battery empty!"
-#define STRING_STARTUPDONE		"Startup complete %lus"
+#pragma once
+
+#include <string.h>
+#include "../ili9341/ili9341.h"
+#include "../touch_resistive/TouchScreen.h"
+#include "image.h"
+
+#define MAX_TEXT_LENGTH 20
+class ImgButton {
+public:
+    enum State {
+    	BUTTON_DISABLED = -1,
+    	BUTTON_UNPRESSED = 0,
+    	BUTTON_PRESSED = 1
+    };
+private:
+	ILI9341 *m_lcd;
+	uint8_t m_size;
+	uint16_t m_x, m_y, m_w, m_h;
+	uint16_t m_id;
+	Image *m_image;
+	State m_state;
+	char m_text[MAX_TEXT_LENGTH];
+public:
+	void create(ILI9341 *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, Image *image, char *text, uint8_t size, State state, uint16_t id);
+
+	void draw(State state);
+	void toggle();
+	bool isPressed(uint16_t x, uint16_t y) ;
+
+	uint16_t getId();
+};

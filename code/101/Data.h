@@ -58,6 +58,22 @@ public:
 	// WLAN
 	uint8_t			freeAPCount;
 	char			freeAPList[6][20];
+
+	Data() {
+		// define some initial values , code cleanup required! no time..
+		bme280_temp_max = 50;
+		bme280_temp_min = 10;
+		bme280_pressure_max = 101325;
+		bme280_pressure_min = 99325;
+		bme280_humi_max = 90;
+		bme280_humi_min = 10;
+		gp2y10_dust_max = 0.50;
+		vz89_co2_max = 800;
+		vz89_co2_min = 400;
+		vz89_voc_max = 200;
+		geiger_cpm_max = 50;
+	}
+
 	void setLimits() {
 		if (bme280_temp < bme280_temp_min) bme280_temp_min = bme280_temp;
 		if (bme280_temp > bme280_temp_max) bme280_temp_max = bme280_temp;
@@ -79,37 +95,37 @@ public:
 	float scaleFloat(float value, float min, float max, uint8_t height) {
 		if (max - min == 0) return 0;
 		else
-		return value * height / (max - min);
+		return (value - min) * height / (max - min);
 	}
 	float scaleInt(uint32_t value, uint32_t min, uint32_t max, uint8_t height) {
 		if (max - min == 0) return 0;
 		else
-		return value * height / (max - min);
+		return (value - min) * height / (max - min);
 	}
 
-	float getBME280Temp_scaled() {
-		return scaleFloat(bme280_temp, bme280_temp_min, bme280_temp_max, 30);
+	float getBME280Temp_scaled(uint8_t height) {
+		return scaleFloat(bme280_temp, bme280_temp_min, bme280_temp_max, height);
 	}
-	float getBME280Altitude_scaled() {
-		return scaleFloat(bme280_altitude, bme280_altitude_min, bme280_altitude_max, 30);
+	float getBME280Altitude_scaled(uint8_t height) {
+		return scaleFloat(bme280_altitude, bme280_altitude_min, bme280_altitude_max, height);
 	}
-	uint32_t getBME280Pressure_scaled() {
-		return scaleInt(bme280_pressure, bme280_pressure_min, bme280_pressure_max, 30);
+	uint32_t getBME280Pressure_scaled(uint8_t height) {
+		return scaleInt(bme280_pressure, bme280_pressure_min, bme280_pressure_max, height);
 	}
-	uint8_t getBME280Humi_scaled() {
-		return scaleInt(bme280_humi, bme280_humi_min, bme280_humi_max, 30);
+	uint8_t getBME280Humi_scaled(uint8_t height) {
+		return scaleInt(bme280_humi, bme280_humi_min, bme280_humi_max, height);
 	}
-	float getGP2Y10Dust_scaled() {
-		return scaleFloat(gp2y10_dust, gp2y10_dust_min, gp2y10_dust_max, 30);
+	float getGP2Y10Dust_scaled(uint8_t height) {
+		return scaleFloat(gp2y10_dust, gp2y10_dust_min, gp2y10_dust_max, height);
 	}
-	float getVZ89CO2_scaled() {
-		return scaleFloat(vz89_co2, vz89_co2_min, vz89_co2_max, 30);
+	float getVZ89CO2_scaled(uint8_t height) {
+		return scaleFloat(vz89_co2, vz89_co2_min, vz89_co2_max, height);
 	}
-	float getVZ89VOC_scaled() {
-		return scaleFloat(vz89_voc, vz89_voc_min, vz89_voc_max, 30);
+	float getVZ89VOC_scaled(uint8_t height) {
+		return scaleFloat(vz89_voc, vz89_voc_min, vz89_voc_max, height);
 	}
-	uint32_t getGeigerCPM_scaled() {
-		return scaleInt(geiger_cpm, geiger_cpm_min, geiger_cpm_max, 30);
+	uint32_t getGeigerCPM_scaled(uint8_t height) {
+		return scaleInt(geiger_cpm, geiger_cpm_min, geiger_cpm_max, height);
 	}
 
 	/*void set(float temp, float altitude, uint32_t pressure, float dust, float co2, float voc, uint32_t pulses, uint32_t cpm, uint16_t voltage, uint16_t duty, float battery) {

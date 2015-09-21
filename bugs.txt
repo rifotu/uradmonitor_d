@@ -1,3 +1,6 @@
+2015-09-18
+weird behaviour due to improper crystal osc. . Caps of 22pF were too big. Changed to 12pF
+
 2015-08-07
 PF7,PF6,PF5 (touchscreen and battery monitor) were not working, because they were used by JTAG.
 Had to disable JTAG in code: 	MCUCSR |=(1<<JTD);

@@ -50,7 +50,11 @@ public:
 
 	// change the orientation (default portrait)
 	void	setOrientation(Orientation orientation = PORTRAIT);
-
+	void 	setCalibration(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t pressure) {
+		//uint32_t calX1 = 142, calY1 = 170, calX2 = 892, calY2 = 866,
+		//
+		calX1 = x1; calY1 = y1; calX2 = x2; calY2 = y2; minPressure = pressure;
+	}
 	uint16_t readRawPressure(void);
 	uint16_t readRawY();
 	uint16_t readRawX();
@@ -62,4 +66,5 @@ private:
 	DigitalPin 	*xn_adc, *yp_adc, *xp_io, *yn_io;
 	uint16_t 	touchResistance;
 	Orientation m_orientation;
+	uint32_t 	calX1, calY1, calX2, calY2, minPressure;
 };

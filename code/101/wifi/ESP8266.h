@@ -75,15 +75,21 @@ public:
 		//m_serial->send("AT_CWJAP=\"%s\"\r\n", ssid);
 		return true;
 	}
-
+	//AT+CIPSTART="TCP","data.uradmonitor.com",80
+	//AT+CIPSTART="TCP","23.239.13.18",80
 	// no time: quick and dirty uRADMonitor server connect
 	void sendData(char *data) {
-		m_serial->send("AT+CIPSTART=\"TCP\",\"23.239.13.18\",80\r\n");
-		char tmp[255] = {0};
+		m_serial->send("AT+CIFSR\r\n");
+		//m_serial->send("AT+CIPSTART=\"TCP\",\"23.239.13.18\",80\r\n");
+		m_serial->send("AT+CIPSTART=\"TCP\",\"data.uradmonitor.com\",80\r\n");
+		_delay_ms(1000);
+		char tmp[350] = {0};
 		sprintf(tmp, "GET /upload/0.1/upload.php?%s HTTP/1.1\r\nHost: data.uradmonitor.com\r\n\r\n", data);
-		m_serial->send("AT+CIPSEND=%d\r\n", strlen(tmp));
-		m_serial->send(tmp);
 
+		m_serial->send("AT+CIPSEND=%d\r\n", strlen(tmp));
+		_delay_ms(500);
+		m_serial->send(tmp);
+		_delay_ms(2000);
 		m_serial->send("AT+CIPCLOSE\r\n");
 
 	}

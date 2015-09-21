@@ -51,6 +51,12 @@ uint16_t float2int(float val);
 // dose equivalent linear approximative conversion from CPM
 float CPM2uSVh(uint8_t tube, uint32_t cpm);
 
+// to save display space, we use multipliers
+float getDoseMulFactor(float dose);
+
+char getDoseMulSym(float dose);
+
+
 /**
  * copyBytes
  * copy specified src_bytes from src to dst at specified offset

@@ -59,6 +59,19 @@ float CPM2uSVh(uint8_t tube, uint32_t cpm) {
 	return aux_detectorFactor(tube) * cpm;
 }
 
+// to save display space, we use multipliers
+float getDoseMulFactor(float dose) {
+	 if (dose < 10) return 1; // show in micros
+	 else if (dose < 10000) return 0.001; // show in milis
+	 else return 0.000001; // show in units
+}
+
+char getDoseMulSym(float dose) {
+	 if (dose < 10) return 'u'; // show in micros
+	 else if (dose < 10000) return 'm'; // show in milis
+	 else return ' '; // show in units
+}
+
 /**
  * copyBytes
  * copy specified src_bytes from src to dst at specified offset

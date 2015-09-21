@@ -41,6 +41,13 @@ TouchScreen::TouchScreen(ADC10b *adc, DigitalPin *xp, DigitalPin *yn, DigitalPin
 	yp_adc = yp;
 	m_orientation = orientation;
 	touchResistance = r;
+
+	// default calibration values
+	calX1 = 142;
+	calY1 = 170;
+	calX2 = 892;
+	calY2 = 866;
+	minPressure = 200;
 }
 
 // change the orientation (default portrait)
@@ -116,9 +123,6 @@ uint16_t TouchScreen::readRawPressure(void) {
 }
 
 bool TouchScreen::read(uint16_t *x, uint16_t *y, uint16_t *pressure) {
-	uint32_t calX1 = 142, calY1 = 170, calX2 = 892, calY2 = 866,
-	//uint32_t calX1 = 60, calY1 = 87, calX2 = 160, calY2 = 118,
-			minPressure = 200;	// minimum pressure to consider a click
 
 	lastRawZ = readRawPressure();
 

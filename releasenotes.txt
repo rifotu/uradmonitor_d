@@ -1,3 +1,18 @@
+2015_09_19 - 20 software
+- new image class to store / draw images
+- new image button class
+- new GUI with beautiful icons
+- faster tap / display / sensors action
+- calibration function for touchscreen linked to IDs
+- wlan free APs bug fixed
+- wlan connectivity fixed
+- reports successfully sent to uradmonitor.com server. Added basic upload support for D models on server side: TODO: proper E2 protocol POST uploads
+- new Dosimeter and AirQ pages
+- alarms for all parameters
+- air quality formula based on vocs, dust, co2 and humi , with pondered average, log10 and scale
+- black theme
+- new Measure page with improvements on the charts: TODO: do a single chart window, bigger, like in the AirQ page
+
 2015_09_18 pcb
 - change 16Mhz crystal caps to 12pF . Having them on 22pF caused lots of unpredictable issues.
 

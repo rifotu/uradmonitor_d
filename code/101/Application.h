@@ -56,8 +56,6 @@
 #include "Data.h"
 // UI
 #include "ui/ui.h"
-#include "ui/button.h"
-#include "ili9341/img_logo.h"
 
 
 /************************************************************************************************************************************************/
@@ -67,7 +65,7 @@
 #define				VER_SW					100
 #define				DEV_MODEL				MODEL_D				// 1=model_A, 2=model_B, 3=model_C, 4=model_A2, 9=model_0
 #define				DEV_RAD_DETECTOR		GEIGER_TUBE_LND712 	// 1=geiger_SBM20 , 2=geiger_SI29BG, 3=geiger_SBM19
-#define				DEV_ID					0x5	 				// change here for new devices
+#define				DEV_ID					0x6	 				// change here for new devices
 
 /************************************************************************************************************************************************/
 /* Constants                                                            																		*/
@@ -80,9 +78,17 @@
 #define				BATTERY_LIMIT			3.3					// shutdown if voltage on battery is lower
 #define 			BACKLIGHT_TIMEOUT		60					// 5seconds to timeout backlight, tap on screen to restart
 #define				PARTIAL_INTERVAL		5					// seconds to display first results: must divide 60 for precise calculations
-#define				GEIGER_CPM_ALARM		100					// sound alarm on this threshold
 #define				MAX_UINT32				0xFFFFFFFF			// max uint32 value
-#define				ALARM_RADIATION			1
+#define 			ALARM_TEMP				1
+#define 			ALARM_PRESSURE			2
+#define				ALARM_HUMI				3
+#define 			ALARM_DUST				4
+#define				ALARM_CO2				5
+#define				ALARM_VOC				6
+#define				ALARM_RADIATION			7
+#define 			DOSE_THRESHOLD_LOW 		0.10
+#define 			DOSE_THRESHOLD_NORMAL 	0.20
+#define 			DOSE_THRESHOLD_HIGH 	1.00
 
 /************************************************************************************************************************************************/
 /* Global Objects                                                       																		*/
@@ -115,3 +121,5 @@ void backlight(bool set);
 uint8_t batteryPercentage(float vol);
 
 void serialCommand(char *cmd);
+
+void setup();

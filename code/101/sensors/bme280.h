@@ -1,7 +1,7 @@
 /*
 ** BME280 Sensor Library for AVR Microcontrollers
 ** Version: 	0.1.0
-** Date: 		August, 2014
+** Date: 		September, 2015
 ** License:		LGPL v3
 ** Copyright: 	(C) 2009 - 2012 Radu Motisan, radu.motisan@gmail.com
 ** Description:	The BME280 from Bosch is a temperature and pressure sensor with a I2C interface

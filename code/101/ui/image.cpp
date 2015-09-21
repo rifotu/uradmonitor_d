@@ -1,8 +1,7 @@
 /*
-** Portable Environmental Monitor
+** Image Library for AVR microcontrollers
 ** Copyright (C) 2009 - 2015 Radu Motisan, radu.motisan@gmail.com
-** A battery powered handheld device that measures radiation (alpha,beta,gamma), and air parameters:
-** temperature, pressure, humidity, content of dust particles, CO2 levels, tVOCs levels
+** A basic UI button implementation designed for embedded systems
 **
 ** www.pocketmagic.net
 **
@@ -23,10 +22,13 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define STRING_NAME 			"Portable Environmental Monitor"
-#define STRING_WEB 				"www.uradmonitor.com"
-#define STRING_SHORTNAME		"uRADMonitor-D"
-#define STRING_SELFCHECK		"Self check..."
-#define STRING_BATVOLTAGE1		"Battery voltage: %2.2fV"
-#define STRING_BATDISCHARGED	"Battery empty!"
-#define STRING_STARTUPDONE		"Startup complete %lus"
+#include "image.h"
+
+Image::Image(const uint16_t *rgb16, uint16_t w, uint16_t h) {
+	m_w = w; m_h = h;
+	m_pixels = rgb16;
+}
+
+void Image::draw(ILI9341 *lcd, uint16_t x, uint16_t y, uint8_t size) {
+	lcd->drawImageRGB16(x, y, m_pixels, m_w, m_h, size);
+}

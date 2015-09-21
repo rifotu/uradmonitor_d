@@ -75,7 +75,7 @@ volatile bool		cmdSend					= false,
 uint8_t				secTimeout 				= 1;
 uint16_t 			uiResult 				= 0;				// no user touch event to consume by default
 char				szParamServer[50]		= { 0 };			// general purpose buffer
-bool				isMuted					= false;
+bool				isMuted					= true;
 
 uint8_t				cmdAlarm 				= 0;				// if non zero , alarm will sound
 /************************************************************************************************************************************************/
@@ -137,15 +137,16 @@ uint8_t index0 = 0;
 
 ISR(USART0_RX_vect){
 	volatile uint8_t c = UDR0; //Read the value out of the UART buffer
-	//uart0.send(c);
-	data.serial_recv++;
+	uart1.send(c);
+	/*data.serial_recv++;
 	if (c == '\n' || c == '\r' || index0 == 100) {
 		serialCommand(buffer0);
+		memset(buffer0, 0, sizeof(buffer0));
 		index0 = 0;
 	} else {
 		buffer0[index0++] = c;
 		buffer0[index0] = 0;
-	}
+	}*/
 }
 
 char buffer1[101];
@@ -158,6 +159,7 @@ ISR(USART1_RX_vect){
 	data.serial_sent++;
 	if (c == '\n' || c == '\r' || index1 == 100) {
 		serialCommand(buffer1);
+		memset(buffer1, 0, sizeof(buffer1));
 		index1 = 0;
 	} else {
 		buffer1[index1++] = c;
@@ -168,12 +170,12 @@ ISR(USART1_RX_vect){
 // must contain quick code only
 void serialCommand(char *line) {
 	// check uart1/wlan first
-	if (strstr(line, "+CWLAP:(0")) {// == 0 && line[8] == '0') {
+	if (strstr(line, "+CWLAP:(0,\"")) {// == 0 && line[8] == '0') {
 		// some pointer dangerous magic
 		uint8_t apNameLength = strstr(line+11, "\"") - line - 11;
 		if (apNameLength > 19) apNameLength = 19; // TODO: trim -> will result in connection error : redo datatypes
 		if (data.freeAPCount < 5) {
-			memset(data.freeAPList[data.freeAPCount], 0, 19);
+			//memset(data.freeAPList[data.freeAPCount], 0, sizeof(data.freeAPList[data.freeAPCount]));
 			strncpy(data.freeAPList[data.freeAPCount], line+11, apNameLength);
 			uart0.send("free ap: %s ", data.freeAPList[data.freeAPCount]);
 			data.freeAPCount++;
@@ -183,6 +185,7 @@ void serialCommand(char *line) {
 	if (strcmp(line, "beep") == 0) beep();
 	else if (strcmp(line, "shutdown") == 0) shutdown();
 	else if (strcmp(line, "listwlan") == 0) wifi.listAP();
+	else if (strcmp(line, "reinit") == 0) setup();
 }
 /************************************************************************************************************************************************/
 /* Helper functions that can't go in aux.cpp                                                                                                    */
@@ -229,14 +232,7 @@ uint8_t batteryPercentage(float vol) {
 	if (result > 100) return 100; else return result;
 }
 
-
-// main entry point, go ahead, have fun!
-int main(void) {
-	// hold the power button for 3 seconds or shutdown
-	//_delay_ms(STARTUP_DELAY);
-	// keep power pin High unless we want to shutdown
-	powerControl = 1;
-
+void setup() {
 	// disable JTAG so we can use PF4,PF5,PF6,PF7 for ADC and GPIO
 	MCUCSR |=(1<<JTD);MCUCSR |=(1<<JTD); // two times!!
 
@@ -257,33 +253,53 @@ int main(void) {
 	// CREATE Timer T1 PWM to drive inverter for regulated Geiger tube voltage
 	inverter.initPWM();
 
+	beep();
+
 	// init display
 	lcd.init();
 	lcd.setRotation(ILI9341::ROT0);
 	lcd.drawClear(BLACK);
 	backlight(true);
-	lcd.drawString(0,0,3,YELLOW, TRANSPARENT, "Loading");
-	_delay_ms(500);
+
+	// check battery
+	float voltageBat = readBatVoltage();
+	if (voltageBat < BATTERY_LIMIT) {
+		lcd.drawString (CENTERX, CENTERY,	 2, RED, TRANSPARENT, STRING_BATDISCHARGED);
+		lcd.drawStringF(CENTERX, textY(39,1),1, RED, TRANSPARENT, "%2.2fV", voltageBat);
+		_delay_ms(500);
+		shutdown();
+	}
 
 	// init sensors
-	//bmp180.init();
 	bme280.begin();
-	float temp = 0;
-	uint32_t pres = 0;
-	uint8_t hum =0;
-	bme280.readSensors(&temp, &pres, &hum);
-	lcd.drawStringF(0,0,3,YELLOW, TRANSPARENT, "%2.2f %6lu %3u", temp, pres, hum);
-
-
 	dust.init(&dustFlash, &adc, PF1);
 
-	beep(); _delay_ms(500); beep();
-	// start UI
+	if (deviceID == 64000006) {
+		touch.setCalibration(135,152,935,895,200);
+	}
 
+	// set AT+CWMODE=3 to allow CWLAP
+	wifi.setMode();
+	_delay_ms(500);
+	wifi.reset();
+
+	// start UI
 	uart0.send("uRADMonitor-D starting.");
 
+	// draw GUI first page with self check
+	gui.drawPage(PAGE_INIT);
+	_delay_ms(1000);
+	gui.drawPage(PAGE_MAIN);
+}
 
+// main entry point, go ahead, have fun!
+int main(void) {
+	// hold the power button for 3 seconds or shutdown
+	//_delay_ms(STARTUP_DELAY);
+	// keep power pin High unless we want to shutdown
+	powerControl = 1;
 
+	setup();
 
 	// enter main menu
 	// ## touchscreen calibration code
@@ -295,18 +311,6 @@ int main(void) {
 		lcd.drawStringF(0,0,2,WHITE, BLACK, "%4u %4u %4u", touch.readRawX(), touch.readRawY(), touch.readRawPressure());
 	}*/
 
-	// draw GUI first page with self check
-	if (!gui.drawPage(PAGE_INIT))
-		shutdown();
-
-
-	while(1) {
-		_delay_ms(1000);
-	}
-
-	gui.drawPage(PAGE_MAIN);
-
-	//gui.drawPage(PAGE_MEASURE);
 	// ## main code loop
 	while (1) {
 		// ## beep
@@ -320,14 +324,24 @@ int main(void) {
 		inverter.adjustDutyCycle(data.geiger_voltage); // do nothing on failure, we can't reset
 		// read battery
 		data.battery_voltage = readBatVoltage();
+		data.geiger_duty = inverter.getDuty();
 
 		// turn backlight off when timeout is reached
 		if (secTimeout > BACKLIGHT_TIMEOUT) {
 			backlight(false);
 			secTimeout = 0;
 		}
-		// ## draw titlebar and refresh data display
+
+		// ## priority gui update
 		if (cmdRefreshText) {
+			data.time_hour = time.getHour();
+			data.time_minute = time.getMin();
+			data.time_second = time.getSec();
+			gui.updateTitlebar();
+		}
+
+		// ## sensors read every odd second
+		if (cmdRefreshText && time.getSec() % 2 == 0) {
 			// sensor BMP180
 			bme280.readSensors(&data.bme280_temp, &data.bme280_pressure, &data.bme280_humi);
 			//readAll(&data.bmp180_temp, &data.bmp180_pressure, &data.bmp180_altitude);
@@ -337,57 +351,44 @@ int main(void) {
 			// repeat until successful read with timeout?
 			int timeout = 10;
 			while (!vz89.read(&data.vz89_co2, &reactivity, &data.vz89_voc) && timeout) { _delay_ms(1500); timeout--; }
-			vz89.read(&data.vz89_co2, &reactivity, &data.vz89_voc);
 			// geiger readings
-			//float dose = aux_CPM2uSVh((uint8_t)DEV_RAD_DETECTOR, geigerCPM);
 			data.geiger_cpm = geigerCPM;
-
-			data.time_hour = time.getHour();
-			data.time_minute = time.getMin();
-			data.time_second = time.getSec();
-
 			data.setLimits(); // must be changed to proper OOP set/get for all fields
-			gui.updateValues();
 
-			// ## alarm condition
-			if (geigerCPM >= GEIGER_CPM_ALARM) {
-				// threshold to sound alarm reached
+			// ## alarm conditions
+			if (data.geiger_cpm >= 100) {
 				cmdAlarm = ALARM_RADIATION;
-			} else if (cmdAlarm) {
+			} else if (data.vz89_voc >= 300) {
+				cmdAlarm = ALARM_VOC;
+			} else if (data.vz89_co2 >= 1600) {
+				cmdAlarm = ALARM_CO2;
+			} else if (data.gp2y10_dust >= 0.30) {
+				cmdAlarm = ALARM_DUST;
+			} else if (data.bme280_temp >= 50) {
+				cmdAlarm = ALARM_TEMP;
+			} else if (data.bme280_humi >= 80) {
+				cmdAlarm = ALARM_HUMI;
+			} else if (data.bme280_pressure >= 103000) {
+				cmdAlarm = ALARM_PRESSURE;
+			}
+			else if (cmdAlarm) {
 				// alarm should be turned off
 				cmdAlarm = 0;
 				speaker = 0;
 			}
 
+			// turn on backlight on alarm!
+			if (cmdAlarm) {
+				backlight(true);
+			}
+
 			cmdRefreshText = false;
-
 		}
-		// ## every minute we can dispatch data over serial or over WLAN to uradmonitor
-		if (cmdSend) {
-			char tmp[200];
-			sprintf(tmp,"{\"data\":{ \"id\":\"%08lX\","
-					"\"type\":\"%X\",\"detector\":\"%s\","
-					"\"cpm\":%lu,\"temperature\":%.2f,\"uptime\": %lu,"
-					"\"pressure\":%lu,\"humidity\":%u,\"dust\":%.2f,\"co2\":%.2f,\"voc\":%.2f,"
-					"\"battery\":%.2f,\"tube\":%u}}",
-					deviceID, DEV_MODEL, aux_detectorName(DEV_RAD_DETECTOR), geigerCPM, data.bme280_temp, time.getTotalSec(),
-					data.bme280_pressure, data.bme280_humi, data.gp2y10_dust,data.vz89_co2, data.vz89_voc, data.battery_voltage, data.geiger_voltage);
-			data.serial_sent += strlen(tmp);
-			uart0.send(tmp);
 
-			// internet code here
-
-			sprintf(tmp,"id=%08lX&ts=%ld&inv=%d&ind=%d&s1t=%2.2f&cpm=%ld&voc=%.2f&co2=%.2f",
-								deviceID,
-								time.getTotalSec(),
-								data.geiger_voltage,
-								data.geiger_duty,
-								data.bme280_temp,
-								geigerCPM,
-								data.vz89_voc, data.vz89_co2);
-
-						wifi.sendData(tmp);
-			cmdSend = false;
+		// ## refresh data display
+		if (cmdRefreshText && time.getSec() % 2 == 1) {
+			gui.updateValues();
+			cmdRefreshText = false;
 		}
 
 		// ## act on the gui elements
@@ -423,6 +424,14 @@ int main(void) {
 					uiResult = 0;
 					gui.drawPage(PAGE_MAIN);
 				}
+			} break;
+			case ID_BUTTON_DOSIMETER: {
+				uiResult = 0;
+				gui.drawPage(PAGE_DOSIMETER);
+			} break;
+			case ID_BUTTON_AIRQ: {
+				uiResult = 0;
+				gui.drawPage(PAGE_AIRQ);
 			} break;
 			case ID_BUTTON_MEASURE: {
 				uiResult = 0;
@@ -463,10 +472,37 @@ int main(void) {
 				uiResult = 0;
 		}
 
-		//uint16_t x, y,z;
-				//gui.getLastTouch(&x, &y, &z);
-				//lcd.drawStringF(0,288, 2, RED, BLACK,"%u %d,%d   ", uiResult, x,y);
+		// ## every minute we can dispatch data over serial or over WLAN to uradmonitor
+		if (cmdSend) {
+			char tmp[300];
+			sprintf(tmp,"{\"data\":{ \"id\":\"%08lX\","
+					"\"type\":\"%X\",\"detector\":\"%s\","
+					"\"cpm\":%lu,\"temperature\":%.2f,\"uptime\": %lu,"
+					"\"pressure\":%lu,\"humidity\":%u,\"dust\":%.2f,\"co2\":%.2f,\"voc\":%.2f,"
+					"\"battery\":%.2f,\"tube\":%u}}",
+					deviceID, DEV_MODEL, aux_detectorName(DEV_RAD_DETECTOR), geigerCPM, data.bme280_temp, time.getTotalSec(),
+					data.bme280_pressure, data.bme280_humi, data.gp2y10_dust,data.vz89_co2, data.vz89_voc, data.battery_voltage, data.geiger_voltage);
+			data.serial_sent += strlen(tmp);
+			uart0.send(tmp);
 
+			// internet code here
+
+			sprintf(tmp,"id=%08lX&ts=%ld&inv=%d&ind=%d&s1t=%2.2f&cpm=%ld&voc=%.2f&co2=%.2f&vh=65&vs=65&s4p=%lu&h=%u&d=%2.2f",
+								deviceID,
+								time.getTotalSec(),
+								data.geiger_voltage,
+								data.geiger_duty,
+								data.bme280_temp,
+								geigerCPM,
+								data.vz89_voc, data.vz89_co2,
+								data.bme280_pressure,
+								data.bme280_humi,
+								data.gp2y10_dust
+								);
+
+						wifi.sendData(tmp);
+			cmdSend = false;
+		}
 	}
 }
 
